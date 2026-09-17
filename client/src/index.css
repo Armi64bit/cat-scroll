@@ -1,0 +1,4 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root{font-family:'Manrope',Arial,sans-serif;color:#f4efe6;background:#11110f;font-synthesis:none;text-rendering:optimizeLegibility}html,body,#root{min-height:100%;margin:0}body{min-width:320px;background:#11110f}a{color:inherit}button{font:inherit}
