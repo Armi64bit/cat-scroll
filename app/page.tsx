@@ -8,13 +8,15 @@ import styles from './page.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const basePath = process.env.GITHUB_ACTIONS === 'true' ? '/cat-scroll' : '';
+
 const assets = {
-  hero: { desktop: '/assets/01-hero-desktop.jpg', mobile: '/assets/01-hero-mobile.jpg' },
-  about: { desktop: '/assets/02-about-desktop.jpg', mobile: '/assets/02-about-mobile.jpg' },
-  skills: { desktop: '/assets/03-skills-desktop.jpg', mobile: '/assets/03-skills-mobile.jpg' },
-  projects: { desktop: '/assets/04-projects-desktop.jpg', mobile: '/assets/04-projects-mobile.jpg' },
-  experience: { desktop: '/assets/05-experience-desktop.jpg', mobile: '/assets/05-experience-mobile.jpg' },
-  contact: { desktop: '/assets/06-contact-desktop.jpg', mobile: '/assets/06-contact-mobile.jpg' },
+  hero: { desktop: `${basePath}/assets/01-hero-desktop.jpg`, mobile: `${basePath}/assets/01-hero-mobile.jpg` },
+  about: { desktop: `${basePath}/assets/02-about-desktop.jpg`, mobile: `${basePath}/assets/02-about-mobile.jpg` },
+  skills: { desktop: `${basePath}/assets/03-skills-desktop.jpg`, mobile: `${basePath}/assets/03-skills-mobile.jpg` },
+  projects: { desktop: `${basePath}/assets/04-projects-desktop.jpg`, mobile: `${basePath}/assets/04-projects-mobile.jpg` },
+  experience: { desktop: `${basePath}/assets/05-experience-desktop.jpg`, mobile: `${basePath}/assets/05-experience-mobile.jpg` },
+  contact: { desktop: `${basePath}/assets/06-contact-desktop.jpg`, mobile: `${basePath}/assets/06-contact-mobile.jpg` },
 };
 
 function ResponsiveImage({ source, alt }: { source: { desktop: string; mobile: string }; alt: string }) {
