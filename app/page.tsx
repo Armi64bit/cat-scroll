@@ -20,7 +20,7 @@ const assets = {
 };
 
 function ResponsiveImage({ source, alt }: { source: { desktop: string; mobile: string }; alt: string }) {
-  return <picture><source media="(max-width: 900px)" srcSet={source.mobile} /><img src={source.desktop} alt={alt} /></picture>;
+  return <picture><source media="(max-width: 700px)" srcSet={source.mobile} /><img src={source.desktop} alt={alt} /></picture>;
 }
 
 export default function Home() {
@@ -30,11 +30,10 @@ export default function Home() {
     const refresh = () => ScrollTrigger.refresh();
     const ctx = gsap.context(() => {
       gsap.from('.hero-copy > *', { y: 32, opacity: 0, duration: 0.9, stagger: 0.1, ease: 'power3.out' });
-      gsap.utils.toArray<HTMLElement>('[data-scene]').forEach((scene) => {
-        const image = scene.querySelector<HTMLElement>('[data-scene-image]');
+      gsap.utils.toArray<HTMLElement>('.scene').forEach((scene) => {
+        const image = scene.querySelector('.scene-image');
         const copy = scene.querySelectorAll('.reveal');
-        if (!image) return;
-        gsap.fromTo(image, { scale: 1.18, yPercent: -8, opacity: 0.72 }, { scale: 1, yPercent: 8, opacity: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+        gsap.fromTo(image, { scale: 1.08, yPercent: -3 }, { scale: 1, yPercent: 3, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: true } });
         gsap.from(copy, { y: 36, opacity: 0, stagger: 0.08, duration: 0.7, ease: 'power3.out', scrollTrigger: { trigger: scene, start: 'top 68%', once: true } });
       });
       window.addEventListener('load', refresh);
@@ -57,8 +56,8 @@ export default function Home() {
         <a className={styles.available}><span />Available for select work</a>
       </nav>
 
-      <section id="top" data-scene className={`${styles.hero} scene`}>
-        <div data-scene-image className={`${styles.sceneImage} scene-image hero-cat`}><ResponsiveImage source={assets.hero} alt="Tabby cat looking directly into the camera" /></div>
+      <section id="top" className={`${styles.hero} scene`}>
+        <div className={`${styles.sceneImage} scene-image hero-cat`}><ResponsiveImage source={assets.hero} alt="Tabby cat looking directly into the camera" /></div>
         <div className={`${styles.heroOverlay} hero-copy`}>
           <p className={styles.kicker}><span className={styles.eyebrowLine} /> FULL-STACK ENGINEER · TUNIS, TN</p>
           <h1>Building digital<br /><em>things</em> with intent.</h1>
@@ -68,8 +67,8 @@ export default function Home() {
         <div className={styles.heroMeta}><span>SCROLL TO DISCOVER</span><MoveDown size={14} /></div>
       </section>
 
-      <section id="about" data-scene className={`${styles.section} ${styles.darkSection} scene`}>
-        <div data-scene-image className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.about} alt="Illustrated tabby cat sitting in a living room" /></div>
+      <section id="about" className={`${styles.section} ${styles.darkSection} scene`}>
+        <div className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.about} alt="Illustrated tabby cat sitting in a living room" /></div>
         <div className={`${styles.sectionContent} ${styles.aboutContent}`}>
           <p className={`${styles.kicker} reveal`}><span className={styles.eyebrowLine} /> 01 / ABOUT</p>
           <h2 className="reveal">The human<br />behind the <em>stack.</em></h2>
@@ -79,8 +78,8 @@ export default function Home() {
         <div className={styles.sideNote}>© 2026<br />BAHAA BOUZID</div>
       </section>
 
-      <section id="skills" data-scene className={`${styles.section} ${styles.paperSection} scene`}>
-        <div data-scene-image className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.skills} alt="Watercolor overhead illustration of cat and developer tools" /></div>
+      <section id="skills" className={`${styles.section} ${styles.paperSection} scene`}>
+        <div className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.skills} alt="Watercolor overhead illustration of cat and developer tools" /></div>
         <div className={`${styles.sectionContent} ${styles.skillsContent}`}>
           <p className={`${styles.kicker} reveal`}><span className={styles.eyebrowLine} /> 02 / TOOLKIT</p>
           <h2 className="reveal">Tools for<br /><em>making.</em></h2>
@@ -89,8 +88,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="work" data-scene className={`${styles.section} ${styles.inkSection} scene`}>
-        <div data-scene-image className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.projects} alt="Ink illustration of cat beside a laptop and code windows" /></div>
+      <section id="work" className={`${styles.section} ${styles.inkSection} scene`}>
+        <div className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.projects} alt="Ink illustration of cat beside a laptop and code windows" /></div>
         <div className={`${styles.sectionContent} ${styles.workContent}`}>
           <p className={`${styles.kicker} reveal`}><span className={styles.eyebrowLine} /> 03 / SELECTED WORK</p>
           <h2 className="reveal">Ideas that<br /><em>ship.</em></h2>
@@ -98,8 +97,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="experience" data-scene className={`${styles.section} ${styles.darkSection} scene`}>
-        <div data-scene-image className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.experience} alt="Isometric developer room with cat centered on a rug" /></div>
+      <section id="experience" className={`${styles.section} ${styles.darkSection} scene`}>
+        <div className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.experience} alt="Isometric developer room with cat centered on a rug" /></div>
         <div className={`${styles.sectionContent} ${styles.experienceContent}`}>
           <p className={`${styles.kicker} reveal`}><span className={styles.eyebrowLine} /> 04 / EXPERIENCE</p>
           <h2 className="reveal">Built by<br /><em>doing.</em></h2>
@@ -107,8 +106,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" data-scene className={`${styles.section} ${styles.contactSection} scene`}>
-        <div data-scene-image className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.contact} alt="Charcoal portrait illustration of the tabby cat" /></div>
+      <section id="contact" className={`${styles.section} ${styles.contactSection} scene`}>
+        <div className={`${styles.sceneImage} scene-image`}><ResponsiveImage source={assets.contact} alt="Charcoal portrait illustration of the tabby cat" /></div>
         <div className={`${styles.sectionContent} ${styles.contactContent}`}>
           <p className={`${styles.kicker} reveal`}><span className={styles.eyebrowLine} /> 05 / CONTACT</p>
           <h2 className="reveal">Have a good<br /><em>idea?</em></h2>
