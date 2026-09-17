@@ -62,6 +62,14 @@ const scenes = [
   },
 ];
 
+const transitionFrames = [
+  "/cat-scroll/assets/transition-01-02-desktop.jpg",
+  "/cat-scroll/assets/transition-02-03-desktop.jpg",
+  "/cat-scroll/assets/transition-03-04-desktop.jpg",
+  "/cat-scroll/assets/transition-04-05-desktop.jpg",
+  "/cat-scroll/assets/transition-05-06-desktop.jpg",
+];
+
 function ScenePicture({ scene }: { scene: (typeof scenes)[number] }) {
   return (
     <picture>
@@ -98,8 +106,10 @@ export default function Home() {
           trigger: section,
           start: "top 55%",
           end: "bottom 45%",
-          onEnter: () => changeFrame(index),
-          onEnterBack: () => changeFrame(index),
+          onEnter: () => changeFrame(index * 2),
+          onLeave: () => index < scenes.length - 1 && changeFrame(index * 2 + 1),
+          onEnterBack: () => changeFrame(index * 2),
+          onLeaveBack: () => index > 0 && changeFrame(index * 2 - 1),
         });
         gsap.from(section.querySelectorAll(".copy-reveal"), {
           y: 34,
@@ -129,7 +139,13 @@ export default function Home() {
     <main ref={root} className="portfolio-shell">
       <div className="scroll-progress" />
       <div className="stage" aria-hidden="true">
-        {scenes.map((scene) => <div className="stage-frame" key={scene.label}><ScenePicture scene={scene} /></div>)}
+        {scenes.map((scene, index) => (
+          <div className="stage-frame" key={scene.label}>
+            <ScenePicture scene={scene} />
+          </div>
+        )).flatMap((frame, index) => index < transitionFrames.length
+          ? [frame, <div className="stage-frame stage-transition" key={transitionFrames[index]}><img src={transitionFrames[index]} alt="" loading="eager" /></div>]
+          : [frame])}
         <div className="stage-vignette" />
       </div>
 
