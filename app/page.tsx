@@ -30,11 +30,24 @@ export default function Home() {
     const refresh = () => ScrollTrigger.refresh();
     const ctx = gsap.context(() => {
       gsap.from('.hero-copy > *', { y: 32, opacity: 0, duration: 0.9, stagger: 0.1, ease: 'power3.out' });
-      gsap.utils.toArray<HTMLElement>('[data-scene]').forEach((scene) => {
+      const stageImages = gsap.utils.toArray<HTMLElement>('.stage-image');
+      let activeScene = 0;
+      gsap.set(stageImages, { autoAlpha: 0, scale: 1.08 });
+      gsap.set(stageImages[0], { autoAlpha: 1, scale: 1 });
+      const crossfade = (nextScene: number) => {
+        if (nextScene === activeScene || !stageImages[nextScene]) return;
+        const previous = stageImages[activeScene];
+        const next = stageImages[nextScene];
+        activeScene = nextScene;
+        gsap.timeline({ defaults: { duration: 0.85, ease: 'power2.inOut' } })
+          .to(previous, { autoAlpha: 0, scale: 1.06 }, 0)
+          .fromTo(next, { autoAlpha: 0, scale: 1.12 }, { autoAlpha: 1, scale: 1 }, 0);
+      };
+      gsap.utils.toArray<HTMLElement>('[data-scene]').forEach((scene, index) => {
         const image = scene.querySelector<HTMLElement>('[data-scene-image]');
         const copy = scene.querySelectorAll('.reveal');
-        if (!image) return;
-        gsap.fromTo(image, { scale: 1.08, yPercent: -3 }, { scale: 1, yPercent: 3, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: true } });
+        if (image) gsap.set(image, { autoAlpha: 0 });
+        ScrollTrigger.create({ trigger: scene, start: 'top 55%', onEnter: () => crossfade(index), onEnterBack: () => crossfade(index) });
         gsap.from(copy, { y: 36, opacity: 0, stagger: 0.08, duration: 0.7, ease: 'power3.out', scrollTrigger: { trigger: scene, start: 'top 68%', once: true } });
       });
       window.addEventListener('load', refresh);
@@ -56,6 +69,14 @@ export default function Home() {
         <div className={styles.navLinks}><a href="#about">About</a><a href="#work">Work</a><a href="#contact">Contact</a></div>
         <a className={styles.available}><span />Available for select work</a>
       </nav>
+      <div className={styles.cinematicStage} aria-hidden="true">
+        <div className="stage-image"><ResponsiveImage source={assets.hero} alt="" /></div>
+        <div className="stage-image"><ResponsiveImage source={assets.about} alt="" /></div>
+        <div className="stage-image"><ResponsiveImage source={assets.skills} alt="" /></div>
+        <div className="stage-image"><ResponsiveImage source={assets.projects} alt="" /></div>
+        <div className="stage-image"><ResponsiveImage source={assets.experience} alt="" /></div>
+        <div className="stage-image"><ResponsiveImage source={assets.contact} alt="" /></div>
+      </div>
 
         <section id="top" data-scene className={`${styles.hero} scene`}>
         <div data-scene-image className={`${styles.sceneImage} scene-image hero-cat`}><ResponsiveImage source={assets.hero} alt="Tabby cat looking directly into the camera" /></div>
